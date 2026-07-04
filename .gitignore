@@ -1,0 +1,20 @@
+# Docs (planning documents)
+Docs/
+
+# .NET
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vs/
+
+# ASP.NET Core
+appsettings.*.local.json
+
+# IDE
+.idea/
+*.swp
+*~
+.DS_Store

@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\FinanceWallet.Shared\FinanceWallet.Shared.csproj" />
+    <ProjectReference Include="..\FinanceWallet.Modules.Admin\FinanceWallet.Modules.Admin.csproj" />
+    <ProjectReference Include="..\FinanceWallet.Modules.Audit\FinanceWallet.Modules.Audit.csproj" />
+    <ProjectReference Include="..\FinanceWallet.Modules.ExternalAccounts\FinanceWallet.Modules.ExternalAccounts.csproj" />
+    <ProjectReference Include="..\FinanceWallet.Modules.Identity\FinanceWallet.Modules.Identity.csproj" />
+    <ProjectReference Include="..\FinanceWallet.Modules.Ledger\FinanceWallet.Modules.Ledger.csproj" />
+    <ProjectReference Include="..\FinanceWallet.Modules.Messaging\FinanceWallet.Modules.Messaging.csproj" />
+    <ProjectReference Include="..\FinanceWallet.Modules.Notifications\FinanceWallet.Modules.Notifications.csproj" />
+    <ProjectReference Include="..\FinanceWallet.Modules.Risk\FinanceWallet.Modules.Risk.csproj" />
+    <ProjectReference Include="..\FinanceWallet.Modules.Security\FinanceWallet.Modules.Security.csproj" />
+    <ProjectReference Include="..\FinanceWallet.Modules.Transactions\FinanceWallet.Modules.Transactions.csproj" />
+    <ProjectReference Include="..\FinanceWallet.Modules.Wallets\FinanceWallet.Modules.Wallets.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>
