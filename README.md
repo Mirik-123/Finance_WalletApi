@@ -1,6 +1,6 @@
 # Finance Wallet API
 
-A modular monolith .NET 9 Web API for wallet management with deposit, withdrawal, transfer, and ledger-based accounting.
+A modular monolith .NET 8 Web API for wallet management with deposit, withdrawal, transfer, and ledger-based accounting.
 
 ## Architecture
 
@@ -26,8 +26,8 @@ tests/
 
 ## Prerequisites
 
-- .NET 9 SDK
-- SQL Server (or Docker)
+- .NET 8 SDK
+- SQLite (no external database required for local dev)
 
 ## Getting Started
 
