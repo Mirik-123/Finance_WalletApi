@@ -8,6 +8,7 @@ namespace FinanceWallet.Modules.Identity.Domain.Entities;
 public class ApplicationUser : AggregateRoot<Guid>
 {
     public Email Email { get; private set; } = default!;
+    public string SecurityStamp { get; private set; } = default!;
     public string PasswordHash { get; private set; } = default!;
     public UserStatus Status { get; private set; }
     public RoleNames Role { get; private set; }
@@ -30,6 +31,7 @@ public class ApplicationUser : AggregateRoot<Guid>
         {
             Id = Guid.NewGuid(),
             Email = Email.Create(email),
+            SecurityStamp = Guid.NewGuid().ToString("N"),
             PasswordHash = passwordHash,
             Status = UserStatus.Active,
             Role = RoleNames.User,
