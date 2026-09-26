@@ -1,34 +1,35 @@
+using FinanceWallet.Api.Extensions;
+using FinanceWallet.Api.Filters;
+using FinanceWallet.Modules.Identity.Infrastructure;
+using FinanceWallet.Modules.Identity.Infrastructure.Persistence;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services
+    .AddControllers(options => options.Filters.Add<ApiExceptionFilter>())
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.WriteIndented = false;
+    });
+
+builder.Services.AddIdentityInfrastructure(builder.Configuration);
+builder.Services.AddApiAuthentication(builder.Configuration);
+builder.Services.AddApiAuthorization();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// TODO(Phase 12): replace with EF migrations.
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<IdentityDbContext>();
+    dbContext.Database.EnsureCreated();
+}
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+app.UseAuthentication();
+app.UseAuthorization();
 
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-});
+app.MapControllers();
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

@@ -1,9 +1,16 @@
 using FinanceWallet.Modules.Identity.Application.Abstractions;
+using FinanceWallet.Modules.Identity.Application.Commands;
+using FinanceWallet.Modules.Identity.Application.Services;
+using FinanceWallet.Modules.Identity.Application.Validators;
 using FinanceWallet.Modules.Identity.Contracts;
 using FinanceWallet.Modules.Identity.Infrastructure.Persistence;
 using FinanceWallet.Modules.Identity.Infrastructure.Persistence.Repositories;
 using FinanceWallet.Modules.Identity.Infrastructure.Services;
 using FinanceWallet.Shared.Abstractions;
+using FinanceWallet.Shared.Behaviors;
+using FinanceWallet.Shared.Services;
+using FluentValidation;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,6 +37,18 @@ public static class DependencyInjection
         services.AddScoped<IPasswordHasher, PasswordHasher>();
         services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
         services.AddScoped<ICurrentUserService, CurrentUserService>();
+        services.AddScoped<IDateTimeProvider, SystemDateTimeProvider>();
+        services.AddScoped<AuthResultBuilder>();
+
+        services.AddScoped<IValidator<RegisterUserCommand>, RegisterUserCommandValidator>();
+        services.AddScoped<IValidator<LoginUserCommand>, LoginUserCommandValidator>();
+        services.AddScoped<IValidator<RefreshTokenCommand>, RefreshTokenCommandValidator>();
+        services.AddScoped<IValidator<LogoutUserCommand>, LogoutUserCommandValidator>();
+
+        // TODO(Phase 12): move pipeline behaviors to Bootstrapper composition root.
+        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
+        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>));
 
         services.AddHttpContextAccessor();
 

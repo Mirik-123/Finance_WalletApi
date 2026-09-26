@@ -41,8 +41,7 @@ public class JwtTokenGenerator : IJwtTokenGenerator
             claims.Add(new Claim(ClaimTypes.GivenName, user.FirstName));
         if (!string.IsNullOrEmpty(user.LastName))
             claims.Add(new Claim(ClaimTypes.Surname, user.LastName));
-        if (user.Role != default)
-            claims.Add(new Claim(ClaimTypes.Role, user.Role.ToString()));
+        claims.Add(new Claim(ClaimTypes.Role, user.Role.ToString()));
 
         var token = new JwtSecurityToken(
             issuer: _jwtSettings.Issuer,

@@ -1,5 +1,6 @@
 using FinanceWallet.Modules.Identity.Application.Abstractions;
 using FinanceWallet.Modules.Identity.Domain.Entities;
+using FinanceWallet.Modules.Identity.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
 namespace FinanceWallet.Modules.Identity.Infrastructure.Persistence.Repositories;
@@ -21,14 +22,18 @@ public class ApplicationUserRepository : IApplicationUserRepository
 
     public async Task<ApplicationUser?> GetByEmailAsync(string email, CancellationToken cancellationToken = default)
     {
+        var emailValue = Email.Create(email);
+
         return await _dbContext.Users
-            .FirstOrDefaultAsync(u => u.Email.Value == email, cancellationToken);
+            .FirstOrDefaultAsync(u => u.Email == emailValue, cancellationToken);
     }
 
     public async Task<bool> EmailExistsAsync(string email, CancellationToken cancellationToken = default)
     {
+        var emailValue = Email.Create(email);
+
         return await _dbContext.Users
-            .AnyAsync(u => u.Email.Value == email, cancellationToken);
+            .AnyAsync(u => u.Email == emailValue, cancellationToken);
     }
 
     public async Task AddAsync(ApplicationUser user, CancellationToken cancellationToken = default)

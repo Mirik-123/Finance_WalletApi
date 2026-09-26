@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace FinanceWallet.Modules.Identity.Infrastructure.Services;
+namespace FinanceWallet.Modules.Identity.Contracts;
 
 public class JwtSettings
 {
@@ -11,4 +11,5 @@ public class JwtSettings
     public string Issuer { get; set; } = default!;
     public string Audience { get; set; } = default!;
     public int ExpirationInMinutes { get; set; } = 60;
+    public int RefreshTokenExpirationInDays { get; set; } = 7;
 }

@@ -1,5 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using FinanceWallet.Modules.Identity.Contracts;
 using FinanceWallet.Modules.Identity.Domain.Entities;
 using FinanceWallet.Modules.Identity.Domain.Enums;
 using FinanceWallet.Modules.Identity.Infrastructure.Services;
@@ -87,7 +88,6 @@ public class JwtTokenGeneratorTests
 
         Assert.DoesNotContain(jwt.Claims, c => c.Type == ClaimTypes.GivenName);
         Assert.DoesNotContain(jwt.Claims, c => c.Type == ClaimTypes.Surname);
-        Assert.DoesNotContain(jwt.Claims, c => c.Type == ClaimTypes.Role);
     }
 
     [Fact]
@@ -115,14 +115,14 @@ public class JwtTokenGeneratorTests
     }
 
     [Fact]
-    public void GenerateToken_OmitsRole_WhenDefaultRole()
+    public void GenerateToken_IncludesRole_WhenDefaultRole()
     {
         var user = CreateUser();
         var token = CreateGenerator().GenerateToken(user);
 
         var jwt = Parse(token);
 
-        Assert.DoesNotContain(jwt.Claims, c => c.Type == ClaimTypes.Role);
+        Assert.Equal(RoleNames.User.ToString(), jwt.Claims.Single(c => c.Type == ClaimTypes.Role).Value);
     }
 
     [Fact]
